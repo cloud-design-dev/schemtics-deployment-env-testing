@@ -28,6 +28,13 @@ resource "null_resource" "testing_for_home" {
   }
 }
 
+resource "null_resource" "check_for_bash" {
+  count = "${lookup(data.external.env.result, "HOME") == "/home/nobody"}" ? 1 : 0
+
+  provisioner "local-exec" {
+    command = "which bash"
+  }
+}
 
 # resource "local_file" "output" {
 #   count = "${lookup(data.external.env.result, "HOME") == "/Users/ryan" }" ? 1 : 0
