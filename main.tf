@@ -36,6 +36,14 @@ resource "null_resource" "check_for_bash" {
   }
 }
 
+resource "null_resource" "check_for_curl" {
+  count = "${lookup(data.external.env.result, "HOME") == "/home/nobody"}" ? 1 : 0
+
+  provisioner "local-exec" {
+    command = "which curl"
+  }
+}
+
 # resource "local_file" "output" {
 #   count = "${lookup(data.external.env.result, "HOME") == "/Users/ryan" }" ? 1 : 0
 #   content = <<EOF
