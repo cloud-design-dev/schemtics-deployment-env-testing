@@ -52,7 +52,7 @@ resource "null_resource" "check_for_curl" {
 
 resource "local_file" "output" {
   content = <<EOF
-${lookup(data.external.env.result, "HOME")}
+${data.external.env.result}
 EOF
 
   filename = "deployment.json"
