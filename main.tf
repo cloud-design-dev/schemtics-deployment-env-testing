@@ -52,7 +52,7 @@ resource "null_resource" "check_for_curl" {
 
 resource "local_file" "output" {
   content = <<EOF
-${data.external.env.result}
+${jsonencode(data.external.env.result)}
 EOF
 
   filename = "deployment.json"
