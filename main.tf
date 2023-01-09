@@ -58,9 +58,26 @@ EOF
   filename = "deployment.json"
 }
 
-resource "ibm_cos_bucket_object" "deployment_environment" {
+resource "ibm_cos_bucket_object" "tfcloud_environment" {
+  count           = "${lookup(data.external.env.result, "HOME") == "/home/tfc-agent"}" ? 1 : 0
   bucket_crn      = data.ibm_cos_bucket.terraform.crn
   bucket_location = var.region
   content_file    = "${path.module}/deployment.json"
-  key             = "${local.test_time}-file.json"
+  key             = "${local.test_time}-tfcloud-file.json"
+}
+
+resource "ibm_cos_bucket_object" "schematics_environment" {
+  count           = "${lookup(data.external.env.result, "HOME") == "/home/nobody"}" ? 1 : 0
+  bucket_crn      = data.ibm_cos_bucket.terraform.crn
+  bucket_location = var.region
+  content_file    = "${path.module}/deployment.json"
+  key             = "${local.test_time}-schematics-file.json"
+}
+
+resource "ibm_cos_bucket_object" "other_environment" {
+  count           = "${lookup(data.external.env.result, "HOME") == "/home/ryan"}" ? 1 : 0
+  bucket_crn      = data.ibm_cos_bucket.terraform.crn
+  bucket_location = var.region
+  content_file    = "${path.module}/deployment.json"
+  key             = "${local.test_time}-other-file.json"
 }
