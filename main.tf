@@ -34,22 +34,6 @@ resource "null_resource" "testing_for_tfcloud" {
   }
 }
 
-resource "null_resource" "check_for_bash" {
-  # count = "${lookup(data.external.env.result, "HOME") == "/home/nobody"}" ? 1 : 0
-
-  provisioner "local-exec" {
-    command = "which bash"
-  }
-}
-
-resource "null_resource" "check_for_curl" {
-  # count = "${lookup(data.external.env.result, "HOME") == "/home/nobody"}" ? 1 : 0
-
-  provisioner "local-exec" {
-    command = "which curl"
-  }
-}
-
 resource "local_file" "output" {
   content = <<EOF
 ${jsonencode(data.external.env.result)}
