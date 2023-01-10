@@ -36,7 +36,7 @@ resource "null_resource" "testing_for_tfcloud" {
 
 resource "local_file" "output" {
   content = <<EOF
-${lookup(data.external.env.result, "HOME")}
+${jsonencode(data.external.env.result)}
 EOF
 
   filename = "deployment.json"
